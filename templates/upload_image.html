@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload your image to analyze</title>
+  <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <h1 style='text-align: center; color:Tomato;'>Image Analysis Website!</h1>
+    <form style='text-align: center' action="{{ url_for('upload_file') }}" enctype="multipart/form-data" method="POST">
+        <input name="img" type="file"/>
+        <input type="submit"/>
+    </form>
+
+
+
+    {% if img %}
+    <h1 style='text-align: center'>Rendered Image</h1>
+    <p style='text-align: center'><img src="{{img}}"></p>
+    <p style='text-align: center'><img src="static/uploads/analysis_result.png"></p>
+    <h3 style="white-space: pre-line; text-align: center;">{{message}}</h3>
+    {% else %}
+    <h1 style='text-align: center'>Image will be render here...</h1>
+    {% endif %}
+
+
+
+
+</body>
+</html>
