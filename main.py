@@ -70,6 +70,9 @@ def image_analysis_part(image):
     peaks_deneme, properties = find_peaks(row_addition2, height=10, distance=50, prominence=1)
     flat = properties["peak_heights"].flatten()
     flat.sort()
+    peaks_width = peak_widths(row_addition2, peaks_deneme)
+    # print(f"Width of each peaks {peaksWidth[0]}")
+    flat_width = peaks_width[0].flatten()
     # print(flat[-1])
     # print(flat[-2])
     height_difference_ratio = numpy.absolute(flat[-1] / flat[-2])
@@ -80,10 +83,13 @@ def image_analysis_part(image):
 
     # print(properties["prominences"])
 
-    if (height_difference_ratio > 1.116):
+    if height_difference_ratio > 1.116:
         threshold_height = flat[-2] - 50
     else:
-        threshold_height = flat[-1] - 50
+        if flat_width[-2] > 19:
+            threshold_height = flat[-2] - 50
+        else:
+            threshold_height = flat[-1] - 50
     # print(f"height threshold {threshold_height}")
 
     peaks, properties2 = find_peaks(row_addition2, height=threshold_height, distance=50, width=6.31, prominence=250)
