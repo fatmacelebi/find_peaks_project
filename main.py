@@ -122,7 +122,8 @@ def image_analysis_part(image):
     plt.ylabel('inverse of the sum of gray level values')
     plt.hlines(*peaksWidth[1:], color="C3")
     plt.savefig('static/uploads/analysis_result.png')
-    plt.show()
+    plt.clf()
+    #plt.show()
     return message
 
 
