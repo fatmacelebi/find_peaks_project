@@ -116,7 +116,7 @@ def image_analysis_part(image):
     print(f"peak positions on image {peaks}")
     length = len(peaks)
 
-    if (len(peaks) > 1):
+    if len(peaks) > 1:
         print(f"distance of peak positions {numpy.absolute(peaks[1] - peaks[0])}")
         distance_of_peaks = numpy.absolute(peaks[1] - peaks[0])
     else:
@@ -134,10 +134,18 @@ def image_analysis_part(image):
 
     print(f"Distance of last peak to the end = {imgArray.shape[1] - peaks[length - 1]}")
 
+    #################################################################
+    # finding ratio of peaks
+    if len(peaks) > 1:
+        height_ratio = round(properties2['peak_heights'][0]/properties2['peak_heights'][1],3)
+    else:
+        height_ratio = 0
+
     message = f"number of peaks = {len(peaks)}\n peak positions on image {peaks}\ndistance of peak positions " \
                      f"{distance_of_peaks}\nWidth of each peaks {peaksWidth[0]}\n" \
                      f"height of each peaks {properties2['peak_heights']}\n" \
-                     f"Distance of last peak to the end = {imgArray.shape[1] - peaks[length - 1]}"
+                     f"Distance of last peak to the end = {imgArray.shape[1] - peaks[length - 1]}\n" \
+                     f"Left height / Right height ratio = {height_ratio}"
     plt.plot(row_addition2)
     plt.plot(peaks, row_addition2[peaks], "x")
 
