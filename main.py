@@ -8,6 +8,8 @@ from PIL import Image, ImageOps
 import glob
 import numpy as np
 from matplotlib import pyplot as plt
+import matplotlib
+
 from scipy.signal import find_peaks, peak_widths
 import numpy
 
@@ -34,6 +36,7 @@ def upload_image():
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
+    matplotlib.use('Agg') # added not to get error after each image upload.
     if request.method == 'POST':
         file = request.files['img']
         filename = secure_filename(file.filename)
@@ -68,11 +71,20 @@ def image_analysis_part(image):
     x_axis = np.arange(0, imgArray.shape[1], 1)
 
     peaks_deneme, properties = find_peaks(row_addition2, height=10, distance=50, prominence=1)
+    peaks_width = peak_widths(row_addition2, peaks_deneme)
+
+    #########################################################################################
+
+    for c in range(0, len(peaks_width[0])):
+        if peaks_width[0][c] < 6:
+            peaks_width[0][c] = 0
+            properties["peak_heights"][c] = 1
+    #########################################################################################
     flat = properties["peak_heights"].flatten()
     flat.sort()
-    peaks_width = peak_widths(row_addition2, peaks_deneme)
     # print(f"Width of each peaks {peaksWidth[0]}")
     flat_width = peaks_width[0].flatten()
+    flat_width.sort()
     # print(flat[-1])
     # print(flat[-2])
     height_difference_ratio = numpy.absolute(flat[-1] / flat[-2])
@@ -86,11 +98,17 @@ def image_analysis_part(image):
     if height_difference_ratio > 1.116:
         threshold_height = flat[-2] - 50
     else:
-        if flat_width[-2] > 19:
+        if flat_width[-2] > 6:
             threshold_height = flat[-2] - 50
         else:
             threshold_height = flat[-1] - 50
     # print(f"height threshold {threshold_height}")
+    ########################################################################################
+    # length1 = len(peaks_deneme)
+    if peaks_width[0][-1] > 16.5:
+        threshold_height = flat[-3] - 50
+
+    ########################################################################################
 
     peaks, properties2 = find_peaks(row_addition2, height=threshold_height, distance=50, width=6.31, prominence=250)
     print(f"number of peaks = {len(peaks)}")
