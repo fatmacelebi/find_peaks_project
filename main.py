@@ -110,7 +110,7 @@ def image_analysis_part(image):
 
     ########################################################################################
 
-    peaks, properties2 = find_peaks(row_addition2, height=threshold_height, distance=50, width=6.31, prominence=250)
+    peaks, properties2 = find_peaks(row_addition2, height=threshold_height, distance=50, width=6.31, prominence=179)
     print(f"number of peaks = {len(peaks)}")
 
     print(f"peak positions on image {peaks}")
