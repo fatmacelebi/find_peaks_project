@@ -15,6 +15,7 @@ import numpy
 
 from numpy import trapz
 import datetime
+import random
 
 app = Flask(__name__)
 
@@ -53,6 +54,14 @@ def image_analysis_part(image):
     gray_image = ImageOps.grayscale(im)
     row_addition = []
     imgArray = np.array(gray_image)
+    ####################################NEW ADDED CODES 22.11.2024#############################
+    median_of_image = numpy.median(imgArray)
+    height = imgArray.shape[0]
+    width = imgArray.shape[1]
+    for j in range(height):
+        for k in range(width - 35, width):
+            imgArray[j][k] = random.randint(median_of_image - 5, median_of_image)
+    ###########################################################################################
     # print(imgArray.shape[0])
 
     inverse = imgArray.shape[0] * 255
