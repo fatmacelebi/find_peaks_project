@@ -106,7 +106,12 @@ def image_analysis_part(image):
 
     if height_difference_ratio > 1.116:
         threshold_height = flat[-2] - 50
+        if height_difference_ratio > 1.13:
+            prom = 150
+        else:
+            prom = 179
     else:
+        prom = 179
         if flat_width[-2] > 6:
             threshold_height = flat[-2] - 50
         else:
@@ -119,7 +124,7 @@ def image_analysis_part(image):
 
     ########################################################################################
 
-    peaks, properties2 = find_peaks(row_addition2, height=threshold_height, distance=50, width=6.31, prominence=179)
+    peaks, properties2 = find_peaks(row_addition2, height=threshold_height, distance=50, width=6.31, prominence=prom)
     print(f"number of peaks = {len(peaks)}")
 
     print(f"peak positions on image {peaks}")
