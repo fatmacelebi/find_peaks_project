@@ -107,7 +107,7 @@ def image_analysis_part(image):
     if height_difference_ratio > 1.116:
         threshold_height = flat[-2] - 50
         if height_difference_ratio > 1.13:
-            prom = 150
+            prom = 145
         else:
             prom = 179
     else:
